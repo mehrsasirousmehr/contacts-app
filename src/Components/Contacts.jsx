@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styles from "./Contacts.module.css";
 
+import inputs from "../constants/inputs";
+
 function Contacts() {
     const [alert, setAlert] = useState("");
     const [contacts, setContacts] = useState([]);
@@ -36,10 +38,10 @@ function Contacts() {
     return (
         <div className={styles.container}>
             <div className={styles.form}>
-                <input type="text" placeholder="Name" name="name" value={contact.name} onChange={changeHandler} />
-                <input type="text" placeholder="Last Name" name="lastName" value={contact.lastName} onChange={changeHandler} />
-                <input type="email" placeholder="Email" name="email" value={contact.email} onChange={changeHandler} />
-                <input type="number" placeholder="Phone" name="phone" value={contact.phone} onChange={changeHandler} />
+                {inputs.map((input, index) => (
+                    <input key={index} type={input.type} name={input.name} placeholder={input.placeholder} value={contact[input.name]} onChange={changeHandler} />
+                ))}
+
                 <button onClick={addHandler}>Add contact</button>
             </div>
             <div className={styles.alert}>{alert ? <p>{alert}</p> : ""}</div>
