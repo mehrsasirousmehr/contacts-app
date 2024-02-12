@@ -1,12 +1,16 @@
 import { useState } from "react";
+import { v4 } from "uuid";
 import styles from "./Contacts.module.css";
 
 import inputs from "../constants/inputs";
+
+import ContactsList from "./ContactsList";
 
 function Contacts() {
     const [alert, setAlert] = useState("");
     const [contacts, setContacts] = useState([]);
     const [contact, setContact] = useState({
+        id: "",
         name: "",
         lastName: "",
         email: "",
@@ -22,7 +26,8 @@ function Contacts() {
     // add contacts
     const addHandler = () => {
         if (contact.name && contact.lastName && contact.email && contact.phone) {
-            setContacts((contacts) => [...contacts, contact]);
+            const newContact = { ...contact, id: v4() };
+            setContacts((contacts) => [...contacts, newContact]);
             setContact({
                 name: "",
                 lastName: "",
@@ -45,6 +50,7 @@ function Contacts() {
                 <button onClick={addHandler}>Add contact</button>
             </div>
             <div className={styles.alert}>{alert ? <p>{alert}</p> : ""}</div>
+            <ContactsList contacts={contacts} />
         </div>
     );
 }
